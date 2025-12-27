@@ -1,0 +1,82 @@
+/* --- TARGET CURSOR ISOLATED STYLES --- */
+body {
+    cursor: none;
+    /* Hide default cursor globally */
+}
+
+/* Fallback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+    body {
+        cursor: auto;
+    }
+
+    .target-cursor-wrapper {
+        display: none !important;
+    }
+}
+
+.target-cursor-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 2147483647;
+    /* Maximum Z-index */
+    mix-blend-mode: difference;
+}
+
+.target-cursor-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    /* Rotation applied here */
+}
+
+.target-cursor-dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+}
+
+.target-cursor-corner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #fff;
+    will-change: transform;
+    box-sizing: border-box;
+    /* Ensure border doesn't inflate size unexpectedly */
+}
+
+/* Corner Specifics - Borders hidden to create L-shapes */
+.corner-tl {
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-tr {
+    border-left: none;
+    border-bottom: none;
+}
+
+.corner-br {
+    border-left: none;
+    border-top: none;
+}
+
+.corner-bl {
+    border-right: none;
+    border-top: none;
+}
