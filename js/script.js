@@ -184,7 +184,6 @@ function initScrollReveal() {
 }
 
 // --- 6. LENIS ---
-// --- 6. LENIS ---
 function initLenis() {
     if (typeof Lenis === 'undefined') return;
     window.lenis = new Lenis({
@@ -219,7 +218,7 @@ navLinks.forEach(link => {
                 link.classList.add('active');
                 if (typeof Lenis !== 'undefined' && window.lenis) {
                     window.lenis.scrollTo(target, { duration: 2.0, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-                    triggerMotionBlur();
+                    // triggerMotionBlur(); // REMOVED
                 } else {
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
@@ -228,11 +227,16 @@ navLinks.forEach(link => {
     });
 });
 
-function triggerMotionBlur() {
-    document.body.classList.add('is-fast-scrolling');
-    setTimeout(() => {
-        document.body.classList.remove('is-fast-scrolling');
-    }, 1800);
+// SMOOTH SCROLL SHORTCUT HELPER
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        if (typeof Lenis !== 'undefined' && window.lenis) {
+            window.lenis.scrollTo(el, { duration: 2.0, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 }
 
 const sectionObserver = new IntersectionObserver((entries) => {
@@ -281,7 +285,7 @@ function initBackToTop() {
     btn.addEventListener('click', () => {
         if (window.lenis) {
             window.lenis.scrollTo(0, { duration: 2 });
-            triggerMotionBlur();
+            // triggerMotionBlur(); // REMOVED
         }
         else window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -300,9 +304,6 @@ function initFadeUpObserver() {
     }, { threshold: 0.3 });
     fadeElements.forEach(el => observer.observe(el));
 }
-
-
-
 
 // --- 12. DOT NAV & CREDITS ---
 function initDotNav() {

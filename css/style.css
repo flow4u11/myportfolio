@@ -1777,11 +1777,3 @@ body {
     transform: translateX(-50%) translateY(0);
     pointer-events: all;
 }
-
-/* --- MOTION BLUR EFFECT --- */
-body.is-fast-scrolling section {
-    filter: blur(4px) grayscale(0.2);
-    transform: scale(0.98);
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
