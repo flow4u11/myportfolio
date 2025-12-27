@@ -241,11 +241,30 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 5%;
-    z-index: 100;
+    padding: 1.5rem 5%;
+    /* Slightly reduced for fixed header */
+    z-index: 1000;
+    /* Ensure on top */
     animation: entryFade 1s var(--ease-apple) forwards;
-    position: relative;
-    /* Anchor for absolute center */
+
+    /* Fixed & Glass */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.01);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+
+    /* Idle Fade Interaction */
+    opacity: 0.6;
+    transition: opacity 0.4s ease, background 0.4s ease, padding 0.4s ease;
+}
+
+nav:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .nav-links {
@@ -372,23 +391,17 @@ nav {
 }
 
 .depth-word:hover {
-    transform: translateY(-8px) scale(1.05);
-    text-shadow:
-        0 1px 0 #ccc,
-        0 2px 0 #bcb,
-        0 3px 0 #aaa,
-        0 4px 0 #999,
-        0 5px 0 #888,
-        0 6px 0 #777,
-        0 7px 0 #666,
-        0 8px 15px rgba(0, 0, 0, 0.5);
+    transform: translateY(-4px) scale(1.02);
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    /* Single soft shadow optimized */
 }
+
 
 .hero-text p {
     color: var(--text-grey);
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    /* Reduced from 1.1rem */
     margin-bottom: 1.5rem;
-    /* Reduced margin to fit extra desc */
     font-weight: 400;
 }
 
@@ -402,7 +415,6 @@ nav {
 
 .extra-desc.visible {
     max-height: 100px;
-    /* Estimate height */
     opacity: 1;
     margin-bottom: 2rem;
 }
@@ -441,6 +453,21 @@ nav {
     color: #000;
 }
 
+/* IDLE GLARE ANIMATION */
+@keyframes btnGlare {
+    0% {
+        left: -100%;
+    }
+
+    20% {
+        left: 200%;
+    }
+
+    100% {
+        left: 200%;
+    }
+}
+
 .btn-primary {
     background: transparent;
     color: var(--text-white);
@@ -451,6 +478,8 @@ nav {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.4s var(--ease-apple);
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary:hover {
@@ -460,11 +489,29 @@ nav {
     box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
 }
 
-.btn-primary {
-    position: relative;
-    overflow: hidden;
+/* Reusing after for hover interaction, using before for idle loop to avoid conflict */
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    animation: btnGlare 5s infinite ease-in-out;
+    animation-delay: 2s;
+    /* Start after slight delay */
 }
 
+/* Pause idle animation on hover */
+.btn-primary:hover::before {
+    animation-play-state: paused;
+    opacity: 0;
+}
+
+/* Hover Sweep Effect */
 .btn-primary::after {
     content: '';
     position: absolute;
@@ -487,9 +534,7 @@ nav {
     perspective: 1200px;
     transform-style: preserve-3d;
     padding: 40px;
-    /* Expands the hover detection area */
     margin: -40px;
-    /* Counteracts padding so layout doesn't shift */
     animation: entryFade 1s var(--ease-apple) 0.4s forwards;
     opacity: 0;
 }
@@ -509,14 +554,11 @@ nav {
 
     /* Base Card Styles */
     background: var(--gh-bg);
-    /* Use variable */
     z-index: 10;
     border: 1px solid var(--gh-border);
-    /* Use variable */
     width: 380px;
     padding: 1.5rem;
     border-radius: var(--gh-br);
-    /* Use variable */
     overflow: hidden;
     height: 90px;
     position: relative;
@@ -545,7 +587,6 @@ nav {
     background-position: -100% -100%, 0 0;
 
     pointer-events: none;
-    /* Ensure clicks pass through */
     z-index: 11;
 }
 
@@ -573,7 +614,6 @@ nav {
     align-items: center;
     gap: 1rem;
     pointer-events: none;
-    /* Ensures click goes to card */
 }
 
 .avatar {
@@ -581,7 +621,6 @@ nav {
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    /* Removed grayscale */
     border: 1px solid #333;
     transition: all 0.5s ease;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -1228,12 +1267,35 @@ body {
 .btn-contact {
     background: var(--text-primary);
     color: var(--bg-color);
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-contact:hover {
     background: transparent;
     color: var(--text-primary);
     border-color: var(--text-primary);
+}
+
+/* IDLE GLARE for Contact Button - distinct timing */
+.btn-contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    animation: btnGlare 5s infinite ease-in-out;
+    animation-delay: 3.5s;
+    /* Offset from primary button */
+}
+
+.btn-contact:hover::before {
+    animation-play-state: paused;
+    opacity: 0;
 }
 
 /* 4. SCROLL INDICATOR */
@@ -1618,30 +1680,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* --- TOAST NOTIFICATION --- */
-.toast-notification {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: rgba(10, 10, 10, 0.8);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    pointer-events: none;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
+
 
 /* --- CREDITS UI --- */
 .credits-wrapper {
@@ -1731,4 +1770,18 @@ body {
 /* Pause when hovering to not interfere with tilt effect (if any) or user interaction */
 .mono-card:hover {
     animation-play-state: paused;
+}
+
+.toast-notification.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: all;
+}
+
+/* --- MOTION BLUR EFFECT --- */
+body.is-fast-scrolling section {
+    filter: blur(4px) grayscale(0.2);
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+    pointer-events: none;
 }

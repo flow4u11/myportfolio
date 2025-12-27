@@ -7,8 +7,8 @@ import { Renderer, Camera, Geometry, Program, Mesh } from 'https://unpkg.com/ogl
 
     // Configuration
     const config = {
-        particleCount: 100, // Reduced from 200 for maximum stability
-        particleSpread: 15,
+        particleCount: 200, // Reduced from 200 for maximum stability
+        particleSpread: 10,
         speed: 0.1,
         baseSize: 100,
         sizeRandomness: 1,
@@ -106,7 +106,7 @@ import { Renderer, Camera, Geometry, Program, Mesh } from 'https://unpkg.com/ogl
 
     // Renderer Setup
     const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
+        dpr: Math.min(window.devicePixelRatio, 1.5), // Cap at 1.5 for performance
         alpha: true,
         depth: false
     });

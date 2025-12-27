@@ -30,11 +30,11 @@ function initThemeSystem() {
             const theme = item.getAttribute('data-theme');
 
             // DEVELOPMENT MODE: Disable Light/Christmas
-            if (theme === 'light' || theme === 'christmas') {
+            if (theme !== 'default') {
                 if (window.showToast) {
-                    window.showToast("In development 🚧");
+                    window.showToast("Theme is in development");
                 } else {
-                    alert("In development 🚧");
+                    alert("Theme is in development");
                 }
                 return; // Stop execution
             }

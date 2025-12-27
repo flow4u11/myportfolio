@@ -1,0 +1,43 @@
+/* --- FPS COUNTER 2.0 --- */
+.fps-pill {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 14px;
+
+    font-family: 'Inter', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary, #fff);
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.fps-pill:hover {
+    background: rgba(20, 20, 20, 0.8);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.fps-pill.disabled {
+    opacity: 0.5;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}

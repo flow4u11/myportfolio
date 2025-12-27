@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/target-cursor.css">
+    <link rel="stylesheet" href="css/fps.css">
+
 
     <!-- Lenis for Smooth Scrolling -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -89,7 +91,6 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
-
                 </button>
             </div>
         </div>
@@ -226,49 +227,13 @@
     </div>
 
 
-    <script type="module">
-        import { VariableProximity } from './js/variable-proximity.js';
-
-        // Headline Animation
-        const heroTitle = document.querySelector('.hero-text h1');
-        if (heroTitle) {
-            new VariableProximity(heroTitle, {
-                radius: 120,
-                fromSettings: "'wght' 900",
-                toSettings: "'wght' 700",
-                falloff: 'gaussian'
-            });
-            heroTitle.classList.add('variable-proximity');
-        }
-
-        // Subheader Animation (First Paragraph)
-        const subheader = document.querySelector('.hero-text p:not(.extra-desc)');
-        if (subheader) {
-            new VariableProximity(subheader, {
-                radius: 80,
-                fromSettings: "'wght' 400",
-                toSettings: "'wght' 600",
-                falloff: 'gaussian'
-            });
-            subheader.classList.add('variable-proximity');
-        }
-
-        // Description Animation
-        const description = document.querySelector('.extra-desc');
-        if (description) {
-            new VariableProximity(description, {
-                radius: 80,
-                fromSettings: "'wght' 400",
-                toSettings: "'wght' 600",
-                falloff: 'gaussian'
-            });
-            description.classList.add('variable-proximity');
-        }
-    </script>
     <script type="module" src="js/particles.js"></script>
     <script src="js/target-cursor.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/fps.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/proximity.js"></script>
 </body>
 
 </html>
