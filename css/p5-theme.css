@@ -1,0 +1,388 @@
+/* --- PERSONA 5 THEME (ISOLATED) --- */
+
+/* 1. Theme Button & Menu */
+body.theme-p5 .theme-menu {
+    background: #ffffff !important;
+    border: 3px solid #000;
+    border-radius: 0;
+    min-width: 140px;
+    left: 0;
+    right: auto;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transform: skewX(-5deg) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+    box-shadow: 5px 5px 0 #D32F2F;
+}
+
+body.theme-p5 .theme-wrapper:hover .theme-menu,
+body.theme-p5 .theme-wrapper.active .theme-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: skewX(-5deg) translateY(0) !important;
+}
+
+body.theme-p5 .theme-item {
+    color: #000 !important;
+    background: transparent;
+    border-bottom: 2px solid #000;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    margin: 0;
+    border-radius: 0;
+    text-align: right;
+    font-family: 'Impact', sans-serif;
+    letter-spacing: 1px;
+}
+
+body.theme-p5 .theme-item:hover {
+    background: #000 !important;
+    color: #D32F2F !important;
+    transform: translateX(-5px);
+}
+
+
+/* 2. Global Background */
+body.theme-p5,
+body.theme-p5 #particles-container {
+    background-color: #D32F2F !important;
+    background-image: none !important;
+}
+
+body.theme-p5 #particles-container canvas {
+    opacity: 0.2;
+}
+
+body.theme-p5 #intro-overlay {
+    background-color: #000 !important;
+}
+
+body.theme-p5 .intro-text {
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+
+/* 3. HEADLINE (ONE BIG WHITE BOX) */
+/* Matches "DESIGNING WITH DEPTH" inside a single skewed white box */
+
+/* The Container (The White Box) */
+body.theme-p5 .hero-text h1 {
+    display: inline-block;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 20px 40px;
+
+    /* Dynamic Transformation */
+    transform: skewX(-10deg) rotate(-4deg);
+
+    /* Box Shadow (Dark Red for visibility on Red BG) */
+    box-shadow: 12px 12px 0 #800000 !important;
+    border: 3px solid #000 !important;
+    /* Added border for definition */
+
+    /* Typography inheritance */
+    font-family: 'Impact', sans-serif !important;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+
+    /* Reset Gradient interactions */
+    -webkit-text-fill-color: initial !important;
+    background-clip: border-box !important;
+    -webkit-background-clip: border-box !important;
+}
+
+/* 4. INNER TEXT (Retention of Headline Text Style) */
+body.theme-p5 .p5-word,
+body.theme-p5 .depth-word {
+    /* Reset individual boxes (Transparent) */
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none;
+
+    /* Text Style */
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    /* Force Solid Black */
+    -webkit-text-stroke: 0 !important;
+    /* Remove any outline */
+
+    font-family: inherit;
+    /* Use parent's Impact */
+    text-transform: uppercase;
+
+    /* Red Shadow (The 'Pop') */
+    text-shadow: 3px 3px 0 #D32F2F !important;
+    /* Keep text shadow on Headline only */
+
+    /* Reset transforms so they flow naturally in the box */
+    transform: none !important;
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* 4. Contact Menu (Hidden on P5) */
+body.theme-p5 .contact-menu {
+    display: none !important;
+}
+
+/* 5. Showcase (Normal Color) */
+body.theme-p5 .masonry-image {
+    opacity: 1 !important;
+    z-index: 1;
+    filter: none !important;
+    transition: 0.3s;
+}
+
+/* 6. Masonry Grid Style */
+body.theme-p5 .masonry-item:not(.is-active) {
+    padding: 15px;
+    overflow: visible !important;
+}
+
+body.theme-p5 .masonry-item:not(.is-active) .masonry-item-inner {
+    background: #fff;
+    border: 4px solid #000;
+    border-radius: 0;
+    transform: rotate(2deg);
+    box-shadow: 6px 6px 0 #000;
+    transition: transform 0.3s ease;
+}
+
+body.theme-p5 .masonry-item:nth-child(even):not(.is-active) .masonry-item-inner {
+    transform: rotate(-1.5deg);
+}
+
+body.theme-p5 .masonry-item:not(.is-active):hover .masonry-item-inner {
+    transform: scale(1.05) rotate(0deg);
+    border-color: #D32F2F;
+}
+
+body.theme-p5 .masonry-item.is-active .masonry-item-inner {
+    background-color: #0a0a0a !important;
+    border: 3px solid #D32F2F !important;
+    border-radius: 4px !important;
+    box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.95), 0 20px 50px rgba(0, 0, 0, 1) !important;
+    z-index: 9999;
+}
+
+body.theme-p5 .masonry-overlay {
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.9);
+    font-family: 'Impact', sans-serif;
+}
+
+body.theme-p5 .masonry-item:hover .masonry-overlay {
+    opacity: 1;
+}
+
+
+/* 7. Components (Nav, Buttons, Scroll) */
+body.theme-p5 nav {
+    background: #000 !important;
+    border-bottom: 3px solid #fff;
+    padding-bottom: 20px;
+    clip-path: none !important;
+}
+
+body.theme-p5 .nav-links a {
+    font-family: 'Impact', sans-serif;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* NAV ELEMENTS (On Black BG) -> RED SHADOW */
+body.theme-p5 .nav-links a.active {
+    background: #fff;
+    color: #000;
+    padding: 0 5px;
+    transform: skewX(-10deg);
+    box-shadow: 4px 4px 0 #D32F2F !important;
+    /* Red Shadow Visible on Black */
+    text-shadow: none !important;
+    border: 2px solid #000;
+}
+
+body.theme-p5 .logo {
+    background: #fff;
+    padding: 2px 10px;
+    transform: skewX(-10deg);
+    box-shadow: 4px 4px 0 #D32F2F !important;
+    /* Red Shadow Visible on Black */
+    border: 2px solid #000;
+}
+
+body.theme-p5 .logo span,
+body.theme-p5 .logo-prefix {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    text-shadow: none !important;
+}
+
+/* CONTACT BUTTON (In Nav, Black BG) -> RED SHADOW */
+body.theme-p5 .btn-contact {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 0;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    box-shadow: 6px 6px 0 #D32F2F !important;
+    /* Red Shadow */
+    text-shadow: none;
+}
+
+/* HIRE ME BUTTON (In Hero, Red BG) -> DARK RED SHADOW */
+body.theme-p5 .btn-primary {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 0;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    box-shadow: 6px 6px 0 #800000 !important;
+    /* Dark Red Shadow */
+    text-shadow: none;
+}
+
+body.theme-p5 .btn-contact:hover,
+body.theme-p5 .btn-primary:hover {
+    background: #000;
+    color: #fff;
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 #fff;
+    text-shadow: none;
+}
+
+/* HEADERS (On Red BG) -> DARK RED SHADOW */
+body.theme-p5 h1:not(.intro-text),
+body.theme-p5 h2,
+body.theme-p5 .section-title {
+    color: #000 !important;
+    background: #fff;
+    padding: 10px 30px;
+    display: inline-block;
+    transform: skewX(-10deg) rotate(-2deg);
+    box-shadow: 8px 8px 0 #800000 !important;
+    /* Dark Red Shadow */
+    border: 3px solid #000;
+    margin-bottom: 3rem;
+    font-size: 3rem;
+    -webkit-text-fill-color: #000 !important;
+    text-shadow: none !important;
+}
+
+/* Back to Top */
+body.theme-p5 #backToTop {
+    width: 45px;
+    height: 45px;
+    background: #000 !important;
+    border: 2px solid #D32F2F !important;
+    border-radius: 0 !important;
+    transform: translateX(-50%) rotate(45deg) scale(0.9);
+    bottom: 40px;
+    padding: 0;
+}
+
+body.theme-p5 #backToTop:hover {
+    background: #D32F2F !important;
+    border-color: #000 !important;
+}
+
+body.theme-p5 #backToTop span {
+    display: none;
+}
+
+body.theme-p5 #backToTop svg {
+    display: block !important;
+    transform: rotate(-45deg);
+    stroke: #D32F2F !important;
+    fill: none !important;
+    width: 24px;
+    height: 24px;
+}
+
+body.theme-p5 #backToTop:hover svg {
+    stroke: #000 !important;
+}
+
+/* PROFILE CARD (Reverted Style + Dark Red Shadow) */
+body.theme-p5 .mono-card {
+    background: #000 !important;
+    /* Black Fill */
+    border: 4px solid #fff !important;
+    /* White Outline */
+    border-radius: 0 !important;
+    transform: rotate(-2deg) !important;
+    box-shadow: 12px 12px 0 #800000 !important;
+    /* Dark Red Shadow */
+}
+
+body.theme-p5 .mono-card:hover {
+    transform: rotate(0deg) scale(1.02) !important;
+    border-color: #D32F2F !important;
+    box-shadow: 12px 12px 0 #000 !important;
+}
+
+body.theme-p5 .mono-card .profile-info h3 {
+    font-family: 'Impact', sans-serif !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+body.theme-p5 .mono-card .profile-info span {
+    color: #ccc !important;
+    font-weight: 700;
+}
+
+/* Cursor Element */
+body.theme-p5 .target-cursor-dot {
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* P5 Paragraph Styling */
+body.theme-p5 .hero-text p,
+body.theme-p5 .section-placeholder p {
+    background-color: #000 !important;
+    color: #fff !important;
+    padding: 10px 15px;
+    width: fit-content;
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    margin-bottom: 20px;
+    box-shadow: 5px 5px 0 #fff;
+    transform: skewX(-10deg);
+}
+
+/* Fix Animation for Extra Description */
+body.theme-p5 .hero-text p.extra-desc {
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 0 15px !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+}
+
+body.theme-p5 .hero-text p.extra-desc.visible {
+    padding: 10px 15px !important;
+    box-shadow: 5px 5px 0 #fff !important;
+    margin-bottom: 20px !important;
+}
+
+/* HIRE NOW Button */
+body.theme-p5 .hero-text .btn-primary {
+    box-shadow: 4px 4px 0 #fff !important;
+}

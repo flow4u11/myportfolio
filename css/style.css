@@ -1,0 +1,1922 @@
+/* --- 1. SETTINGS & VARIABLES --- */
+:root {
+    --bg-color: #000000;
+    --text-white: #ffffff;
+    --text-grey: #888888;
+    --border-color: #333333;
+    --card-bg: #0a0a0a;
+
+    /* THE APPLE CURVE: Starts fast, lands soft */
+    --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html.lenis {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    /* No Highlight */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-white);
+    min-height: 100vh;
+    /* Allow grow */
+    width: 100%;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll only */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- BACKGROUND --- */
+#particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    background: #000000;
+    /* Deep dark background */
+    pointer-events: none;
+    /* Let clicks pass through to content */
+}
+
+/* Ensure canvas within behaves */
+#particles-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* filter: blur(2px); REMOVED for performance */
+    opacity: 0.5;
+    /* Make them subtle */
+}
+
+/* --- 2.1 ENTRY ANIMATION (Cinematic 3D) --- */
+/* --- 2.1 ENTRY ANIMATION CLASSES (Triggered by JS) --- */
+.hero-element {
+    transition: opacity 1s var(--ease-apple), transform 1s var(--ease-apple);
+    will-change: opacity, transform;
+}
+
+/* Initial States BEFORE JS triggers */
+.hero-text-anim {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(5px);
+}
+
+.hero-nav-anim {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.hero-card-anim {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+    filter: blur(5px);
+}
+
+.hero-scroll-anim {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+}
+
+/* Active States AFTER JS triggers */
+body.hero-visible .hero-text-anim {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+body.hero-visible .hero-nav-anim {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.hero-visible .hero-card-anim {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+}
+
+body.hero-visible .hero-scroll-anim {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Stagger Delays */
+body.hero-visible .hero-nav-anim {
+    transition-delay: 0.1s;
+}
+
+body.hero-visible .hero-text-anim {
+    transition-delay: 0.3s;
+}
+
+body.hero-visible .hero-card-anim {
+    transition-delay: 0.5s;
+}
+
+body.hero-visible .hero-scroll-anim {
+    transition-delay: 1.2s;
+}
+
+/* --- 3. INFINITE CONTINUOUS GRADIENT ANIMATION --- */
+@keyframes gradient-slide {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+
+    /* Moves continuously right */
+}
+
+.smooth-text {
+    display: inline-block;
+    color: var(--text-primary);
+    cursor: default;
+
+    /* Wider gradient for smooth flow */
+    background: linear-gradient(90deg, var(--grad-1) 0%, var(--grad-2) 25%, var(--grad-1) 50%, var(--grad-2) 75%, var(--grad-1) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* ANIMATION ALWAYS ATTACHED BUT PAUSED */
+    animation: gradient-slide 3s linear infinite;
+    animation-play-state: paused;
+
+    /* Base transition for scaling */
+    transition: transform 0.6s var(--ease-apple);
+}
+
+.smooth-text:hover {
+    transform: scale(1.05);
+    animation-play-state: running;
+    /* Resume only on hover */
+}
+
+/* LOGO SPECIFIC */
+.logo.smooth-text {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    /* Ensure span inherits the gradient properties */
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* 4. PORTFOLIO UNDERLINE & SCALE */
+    display: inline-block;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Bouncy scale */
+}
+
+.logo:hover span {
+    transform: scale(1.2) rotateX(10deg) translateY(-2px);
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.logo span::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--text-primary);
+    transition: width 0.4s var(--ease-apple);
+}
+
+
+
+.logo-prefix {
+    transition: opacity 0.4s ease;
+}
+
+.logo:hover .logo-prefix {
+    opacity: 0.3;
+    /* Fade out "MY" when hovering "PORTFOLIO" */
+}
+
+
+/* --- 4. NAVIGATION & UNDERLINE --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    /* Slightly reduced for fixed header */
+    z-index: 1000;
+    /* Ensure on top */
+    animation: entryFade 1s var(--ease-apple) forwards;
+
+    /* Fixed & Glass */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.01);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+
+    /* Idle Fade Interaction */
+    opacity: 0.6;
+    transition: opacity 0.4s ease, background 0.4s ease, padding 0.4s ease;
+}
+
+nav:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+
+    /* Force Center */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-grey);
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--text-white);
+    /* 7. MENU SCALE */
+    display: inline-block;
+    transform: scale(1.15);
+    transition: transform 0.6s var(--ease-apple), color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--text-white);
+    transition: width 0.4s var(--ease-apple);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.btn-contact {
+    background: var(--text-white);
+    color: var(--bg-color);
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 30px;
+    transition: transform 0.4s var(--ease-apple);
+    position: relative;
+    overflow: hidden;
+    /* For glass shine containment */
+}
+
+.btn-contact:hover {
+    transform: scale(1.1);
+}
+
+/* Glass Reflection Effect */
+.btn-contact::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+}
+
+.btn-contact:hover::after {
+    left: 100%;
+    transition: 0.5s ease-in-out;
+}
+
+/* --- 5. HERO SECTION --- */
+.hero {
+    min-height: 100vh;
+    /* Full viewport height */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    position: relative;
+    z-index: 10;
+    /* For scroll fade out effect */
+    transform-origin: center center;
+    will-change: transform, opacity;
+}
+
+.hero-text {
+    max-width: 600px;
+    /* Slightly wider but still constrained */
+    animation: entryFade 1s var(--ease-apple) 0.2s forwards;
+    opacity: 0;
+    /* Initial state */
+}
+
+.hero-text h1 {
+    font-size: 5rem;
+    line-height: 1.1;
+    /* Improved line height */
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 1rem;
+}
+
+/* 3. DEPTH WORD ANIMATION */
+.depth-word {
+    display: inline-block;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    /* CRITICAL FIX: Overrides parent's transparent gradients */
+    transition: transform 0.4s var(--ease-apple), text-shadow 0.4s var(--ease-apple);
+    cursor: default;
+    text-shadow: 0 0 0 transparent;
+}
+
+.depth-word:hover {
+    transform: translateY(-4px) scale(1.02);
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    /* Single soft shadow optimized */
+}
+
+
+.hero-text p {
+    color: var(--text-grey);
+    font-size: 0.95rem;
+    /* Reduced from 1.1rem */
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.extra-desc {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.6s var(--ease-apple);
+    margin-top: 0;
+}
+
+.extra-desc.visible {
+    max-height: 100px;
+    opacity: 1;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* 5. READ MORE BUTTON */
+.btn-read-more {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: transparent;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-apple);
+}
+
+.btn-read-more:hover {
+    background: #fff;
+    color: #000;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn-read-more.active {
+    transform: rotate(180deg);
+    background: #fff;
+    color: #000;
+}
+
+/* IDLE GLARE ANIMATION */
+@keyframes btnGlare {
+    0% {
+        left: -100%;
+    }
+
+    20% {
+        left: 200%;
+    }
+
+    100% {
+        left: 200%;
+    }
+}
+
+.btn-primary {
+    background: transparent;
+    color: var(--text-white);
+    border: 1px solid var(--text-white);
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.4s var(--ease-apple);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    background: var(--text-white);
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+/* Reusing after for hover interaction, using before for idle loop to avoid conflict */
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    animation: btnGlare 5s infinite ease-in-out;
+    animation-delay: 2s;
+    /* Start after slight delay */
+}
+
+/* Pause idle animation on hover */
+.btn-primary:hover::before {
+    animation-play-state: paused;
+    opacity: 0;
+}
+
+/* Hover Sweep Effect */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+}
+
+.btn-primary:hover::after {
+    left: 100%;
+    transition: 0.5s ease-in-out;
+}
+
+/* --- 6. 3D MONOCHROME CARD --- */
+.card-container {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    padding: 40px;
+    margin: -40px;
+    animation: entryFade 1s var(--ease-apple) 0.4s forwards;
+    opacity: 0;
+}
+
+/* 2. GLARE EFFECT */
+.mono-card {
+    /* Glare Variables */
+    --gh-width: 100%;
+    --gh-height: 100%;
+    --gh-bg: #0a0a0a;
+    --gh-br: 16px;
+    --gh-border: var(--border-color);
+    --gh-angle: -45deg;
+    --gh-duration: 650ms;
+    --gh-size: 250%;
+    --gh-rgba: rgba(255, 255, 255, 0.5);
+
+    /* Base Card Styles */
+    background: var(--gh-bg);
+    z-index: 10;
+    border: 1px solid var(--gh-border);
+    width: 380px;
+    padding: 1.5rem;
+    border-radius: var(--gh-br);
+    overflow: hidden;
+    height: 90px;
+    position: relative;
+    cursor: pointer;
+
+    transition:
+        height 0.8s var(--ease-apple),
+        box-shadow 0.5s ease,
+        border-color 0.5s ease;
+
+    will-change: transform;
+}
+
+.mono-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(var(--gh-angle),
+            hsla(0, 0%, 0%, 0) 60%,
+            var(--gh-rgba) 70%,
+            hsla(0, 0%, 0%, 0),
+            hsla(0, 0%, 0%, 0) 100%);
+    transition: var(--gh-duration) ease;
+    background-size: var(--gh-size) var(--gh-size), 100% 100%;
+    background-repeat: no-repeat;
+    background-position: -100% -100%, 0 0;
+
+    pointer-events: none;
+    z-index: 11;
+}
+
+.mono-card:hover::before {
+    background-position: 100% 100%, 0 0;
+}
+
+.mono-card.expanded {
+    height: 260px;
+    background: #111;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
+    border-color: var(--text-white);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-height: 50px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #333;
+    transition: all 0.5s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    /* Subtle default glow */
+}
+
+.mono-card:hover .avatar {
+    /* Stronger color and glow on hover */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.info span {
+    font-size: 0.85rem;
+    color: var(--text-grey);
+}
+
+.toggle-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 6. PROFILE EXPAND BUTTON SMOOTHNESS */
+    transition:
+        transform 0.6s var(--ease-apple),
+        background-color 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.toggle-btn:hover {
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.mono-card:hover .toggle-btn {
+    border-color: #fff;
+}
+
+.mono-card.expanded .toggle-btn {
+    transform: rotate(180deg);
+    background: #fff;
+    color: #000;
+}
+
+/* DETAILS SECTION */
+.card-details {
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s var(--ease-apple) 0.1s;
+    pointer-events: none;
+}
+
+.mono-card.expanded .card-details {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tag {
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid #333;
+    border-radius: 20px;
+    color: #ccc;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.social-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #222;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: #888;
+    transition: 0.3s;
+}
+
+.social-icon:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.status-text {
+    color: #666;
+    margin-left: auto;
+}
+
+/* --- 8. WIREFRAME WORKS SECTION --- */
+.works-section {
+    padding: 5rem 10%;
+    min-height: 80vh;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s var(--ease-apple);
+}
+
+.works-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--text-white);
+}
+
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+}
+
+.work-item.wireframe {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.4s var(--ease-apple);
+}
+
+.work-item:hover {
+    transform: translateY(-10px);
+}
+
+.wireframe-img {
+    width: 100%;
+    height: 300px;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Diagonal stripe pattern for wireframe */
+.wireframe-img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 45%, #1a1a1a 50%, transparent 55%);
+    background-size: 20px 20px;
+}
+
+.wireframe-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.line {
+    height: 12px;
+    border-radius: 6px;
+    background: #222;
+}
+
+.title-line {
+    width: 60%;
+    height: 16px;
+    background: #333;
+}
+
+.desc-line {
+    width: 40%;
+}
+
+
+/* --- RESPONSIVE FIX --- */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        /* เอารูปขึ้นก่อนบนมือถือ */
+        justify-content: center;
+        gap: 4rem;
+        padding-top: 8rem;
+    }
+
+    .card-container {
+        /* ลดขนาดการ์ดลงหน่อยบนแท็บเล็ต */
+        transform: scale(0.9);
+    }
+}
+
+
+
+/* --- RESPONSIVE FIXES --- */
+
+/* 1. LARGE SCREENS (TV / High Res Monitors) */
+@media (min-width: 1600px) {
+    body {
+        max-width: 1920px;
+        margin: 0 auto;
+        /* Center the site on ultra-wide screens */
+    }
+
+    .hero-text h1 {
+        font-size: 7rem;
+    }
+
+    .hero-text p {
+        font-size: 1.4rem;
+    }
+}
+
+/* 2. TABLET / SMALL LAPTOPS (900px - 1200px) */
+@media (max-width: 1200px) {
+
+    .container,
+    .hero,
+    .works-section {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .hero-text h1 {
+        font-size: 4rem;
+    }
+}
+
+/* 3. TABLET & MOBILE LANDSCAPE (iPad / rotated phones) */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        justify-content: center;
+        gap: 3rem;
+        padding-top: 6rem;
+        height: auto;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    .hero-text {
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .card-container {
+        transform: scale(1);
+        margin: 0;
+        padding: 0;
+    }
+
+    .scroll-indicator {
+        bottom: 5rem;
+    }
+
+    .nav-links {
+        display: none;
+        /* Hide default links, maybe implement burger later if requested, but for now simple hidden or wrap */
+    }
+}
+
+/* 4. MOBILE PORTRAIT (Phones) */
+@media (max-width: 600px) {
+    nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        padding: 1.2rem;
+    }
+
+    /* Simplify Nav */
+    .logo-prefix {
+        display: none;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    /* Hide Center Links completely on small mobile to save space */
+    .nav-links {
+        display: none;
+    }
+
+    .hero-text h1 {
+        font-size: 3rem;
+        /* Fallback if clamp doesn't catch nicely */
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    /* Fixed Elements Management */
+    .dot-nav {
+        display: none;
+        /* Distracting on mobile */
+    }
+
+    .credits-wrapper {
+        bottom: 1rem;
+        left: 1rem;
+        transform: scale(0.8);
+        transform-origin: bottom left;
+    }
+
+    .scroll-indicator {
+        bottom: 6rem;
+        /* Move up to avoid bottom bars */
+    }
+
+    /* Card Adjustment */
+    .mono-card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .card-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Works Grid - Single Column */
+    .works-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-placeholder h2 {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* เพิ่ม SHINE CSS ที่จำเป็น (ถ้ายังไม่มี) */
+.shine-left::before,
+.shine-right::before {
+    /* ต้องมั่นใจว่า Animation ทำงาน */
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+/* --- NEW FEATURES STYLING --- */
+
+/* 1. INTRO OVERLAY */
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s var(--ease-apple);
+    pointer-events: none;
+    /* Allows scrolling if it gets stuck, but JS will remove it */
+}
+
+#intro-overlay.hidden {
+    opacity: 0;
+}
+
+.intro-text {
+    font-size: 4rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    /* Remove old animation, we will animate spans via JS */
+    opacity: 1;
+    display: block;
+}
+
+/* Shiny Text Effect */
+.shiny-text {
+    color: #b5b5b5;
+    /* Fallback */
+    /* Gradient from Grey -> White -> Grey creates the shine but keeps text visible */
+    background: linear-gradient(120deg,
+            #b5b5b5 40%,
+            #ffffff 50%,
+            #b5b5b5 60%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    display: inline-block;
+    animation: shine 3s linear infinite;
+    /* Ensure text color is transparent so background gradient shows */
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 100%;
+    }
+
+    100% {
+        background-position: -100%;
+    }
+}
+
+.thick-char {
+    font-weight: 900 !important;
+    /* Force extra thickness */
+    /* Optional: Stroke for extra thickness if font maxes out */
+    /* -webkit-text-stroke: 1px rgba(255,255,255,0.1); */
+}
+
+/* Split Text Animation Classes */
+.split-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s var(--ease-apple), transform 0.6s var(--ease-apple);
+    will-change: opacity, transform;
+    /* Important for shiny text children */
+    background: inherit;
+    -webkit-background-clip: inherit;
+    background-clip: inherit;
+    color: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.split-char.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* No longer needed but keeping keyframes to avoid breaking if referenced elsewhere (unlikely) or just remove */
+/* @keyframes introTextAnim removed */
+
+/* 2. BACKGROUND PATTERN (Empty Space) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Subtle dot grid pattern */
+    background-image: radial-gradient(#222 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
+    /* Behind canvas */
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* 3. CONTACT DROPDOWN */
+.contact-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.contact-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 150px;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all 0.4s var(--ease-apple);
+    backdrop-filter: blur(10px);
+    margin-top: 1rem;
+}
+
+.contact-wrapper:hover .contact-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+/* Item Styling */
+.contact-item {
+    color: #aeaeae;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: block;
+    background: transparent;
+    font-weight: 500;
+}
+
+/* --- THEME SYSTEM VARIABLES --- */
+:root {
+    /* DEFAULT (DARK) */
+    --bg-color: #000000;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --card-bg: #111111;
+    --card-border: #333333;
+    --accent-color: #fff;
+
+    --theme-btn-bg: #111;
+    --theme-btn-hover: #222;
+
+    /* Gradient Text Vars */
+    --grad-1: #ffffff;
+    --grad-2: #666666;
+}
+
+/* LIGHT THEME OVERRIDES */
+body.theme-light {
+    --bg-color: #ffffff;
+    /* Pure White */
+    --text-primary: #000000;
+    /* Pure Black */
+    --text-secondary: #333333;
+    /* Dark Grey */
+    --card-bg: #f5f5f5;
+    /* Very Light Grey */
+    --card-border: #e0e0e0;
+    --accent-color: #000000;
+
+    --theme-btn-bg: #f5f5f5;
+    --theme-btn-hover: #e0e0e0;
+
+    /* REVERSE GRADIENT FOR LIGHT MODE */
+    --grad-1: #000000;
+    --grad-2: #999999;
+}
+
+/* CHRISTMAS THEME OVERRIDES (Dark Starry Night) */
+body.theme-christmas {
+    --bg-color: #050510;
+    /* Deep Night Blue/Black */
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    /* Moonlit Grey */
+    --card-bg: #0a0a1a;
+    /* Darker Blue Tint */
+    --card-border: #1f1f33;
+    --accent-color: #ffffff;
+    /* Starlight White */
+
+    --theme-btn-bg: #0a0a1a;
+    --theme-btn-hover: #1f1f33;
+}
+
+/* =========================================
+   PERSONA 5 THEME (FINAL: BUTTON & MASONRY FIXED)
+   ========================================= */
+
+body.theme-p5 {
+    /* --- KEEPING YOUR COLORS --- */
+    --bg-color: #D32F2F;
+    background-color: #D32F2F;
+
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --card-bg: #000000;
+    --card-border: #ffffff;
+    --accent-color: #000000;
+
+    --theme-btn-bg: #fff;
+    --theme-btn-hover: #000;
+
+    font-family: 'Impact', sans-serif !important;
+}
+
+/* --- BACKGROUND (UNCHANGED) --- */
+body.theme-p5::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(#000 1px, transparent 1px),
+        radial-gradient(rgba(0, 0, 0, 0.2) 15%, transparent 16%);
+    background-size: 20px 20px, 6px 6px;
+    opacity: 0.2;
+    z-index: -2;
+    pointer-events: none;
+}
+
+body.theme-p5::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%, 50% 50%);
+    opacity: 1;
+    z-index: -3;
+    pointer-events: none;
+}
+
+body.theme-p5 #particles-container {
+    display: none;
+}
+
+/* --- HEADLINER (UNCHANGED) --- */
+body.theme-p5 .hero-text h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    line-height: 0.85;
+    transform: rotate(-2deg);
+    margin-bottom: 3rem;
+}
+
+body.theme-p5 .hero-text span,
+body.theme-p5 .depth-word {
+    background: transparent !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-size: 5.5rem;
+    letter-spacing: -3px;
+    text-transform: uppercase;
+}
+
+body.theme-p5 .hero-text .depth-word {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+body.theme-p5 .hero-text p,
+body.theme-p5 .section-placeholder p {
+    color: #fff !important;
+    background: #000;
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 1.1rem;
+}
+
+/* --- P5 THEME --- */
+/* (Moved to css/p5-theme.css for isolation) */
+.theme-wrapper {
+    position: relative;
+    margin-right: 6px;
+    /* Closer to contact button */
+}
+
+.btn-theme {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--card-border);
+    background: var(--theme-btn-bg);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-theme:hover {
+    background: var(--theme-btn-hover);
+    transform: rotate(15deg);
+}
+
+
+
+
+.theme-item {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.theme-item:hover {
+    background: rgba(125, 125, 125, 0.1);
+    color: var(--text-primary);
+}
+
+/* Adjust colors in existing elements to use vars */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+#particles-container {
+    background: var(--bg-color);
+}
+
+.btn-contact {
+    background: var(--text-primary);
+    color: var(--bg-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-contact:hover {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+/* IDLE GLARE for Contact Button - distinct timing */
+.btn-contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    animation: btnGlare 5s infinite ease-in-out;
+    animation-delay: 3.5s;
+    /* Offset from primary button */
+}
+
+.btn-contact:hover::before {
+    animation-play-state: paused;
+    opacity: 0;
+}
+
+/* 4. SCROLL INDICATOR */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    /* animation controlled by hero-element class */
+}
+
+.bounce-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-grey);
+    font-size: 0.8rem;
+    font-weight: 500;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* 5. SHOWCASE HOVER */
+.works-section h2.section-title {
+    transition: transform 0.4s var(--ease-apple), letter-spacing 0.4s ease;
+    display: inline-block;
+}
+
+.works-section h2.section-title:hover {
+    transform: scale(1.05);
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 500px) {
+    .intro-text {
+        font-size: 3rem;
+    }
+}
+
+/* --- SCROLL REVEAL REMOVED --- */
+
+/* --- NAVIGATION ACTIVE STATE --- */
+.nav-links a.active {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+/* --- SECTION PLACEHOLDERS --- */
+.section-placeholder {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 10%;
+    text-align: center;
+}
+
+.section-placeholder h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Ensure works section has ID targetable styles */
+#works {
+    scroll-margin-top: 80px;
+    /* Offset for sticky header if needed */
+}
+
+/* --- SCROLL FLOAT ANIMATION --- */
+.scroll-float {
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.scroll-float-text {
+    display: inline-block;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.scroll-float-text .char {
+    display: inline-block;
+    will-change: opacity, transform;
+}
+
+/* --- BACK TO TOP BUTTON --- */
+#backToTop {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+#backToTop.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#backToTop:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+#backToTop svg {
+    width: 24px;
+    height: 24px;
+    stroke: #fff;
+}
+
+/* --- SECTION FRAMES --- */
+/* Add subtle border to top of main sections */
+#about,
+#works,
+#contact {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    /* For labeling if needed later */
+}
+
+/* --- CONTACT ANIMATIONS --- */
+.contact-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.contact-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- CONTACT BUTTON SNAP --- */
+/* --- CONTACT BUTTON SNAP (GLASS + SPACING) --- */
+.contact-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 16px;
+    /* Larger gap asked by user */
+    opacity: 0;
+    transform: translateY(10px);
+    transform-origin: top right;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* GLASSMORPHISM */
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 8px;
+    min-width: 160px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* BRIDGE GAP for safe hover */
+.contact-menu::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    /* Cover the margin gap */
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+}
+
+.contact-wrapper {
+    position: relative;
+    /* Ensure menu is relative to this */
+}
+
+/* Overwrite existing hover logic to be safer */
+.contact-wrapper:hover .contact-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+/* --- DOT NAVIGATION --- */
+.dot-nav {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 100;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-decoration: none;
+}
+
+.dot.active {
+    background: #fff;
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.dot:hover {
+    background: #fff;
+    transform: scale(1.2);
+}
+
+/* --- BACK TO TOP TEXT --- */
+#backToTop {
+    /* Redesign as text button */
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    /* Hide by default */
+    width: auto;
+    height: auto;
+    padding: 0.8rem 1.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s var(--ease-apple);
+    backdrop-filter: blur(10px);
+}
+
+#backToTop.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* --- THEME UI --- */
+.theme-wrapper {
+    position: relative;
+    /* Margin handled by parent gap */
+}
+
+#backToTop span {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+#backToTop:hover {
+    background: #fff;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+#backToTop:hover span {
+    color: #000;
+}
+
+#backToTop svg {
+    display: none;
+    /* Hide old icon if present */
+}
+
+/* --- NAV LEFT GROUP --- */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* --- THEME UI --- */
+.theme-wrapper {
+    position: relative;
+    /* Margin handled by parent gap */
+}
+
+.theme-menu {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 120px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+}
+
+.theme-wrapper:hover .theme-menu,
+.theme-wrapper.active .theme-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.theme-item {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+
+
+/* --- CREDITS UI --- */
+.credits-wrapper {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 900;
+}
+
+.btn-credits {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.btn-credits:hover {
+    background: var(--text-primary);
+    color: var(--bg-color);
+    border-color: var(--text-primary);
+}
+
+.credits-content {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.credits-wrapper.active .credits-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.credits-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.credits-content p:first-child {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+
+/* --- PROFILE IDLE ANIMATION --- */
+@keyframes cardFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.mono-card {
+    /* Apply float animation */
+    animation: cardFloat 6s ease-in-out infinite;
+}
+
+/* Pause when hovering to not interfere with tilt effect (if any) or user interaction */
+.mono-card:hover {
+    animation-play-state: paused;
+}
+
+.toast-notification.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: all;
+}
+
+/* Back to Top Small Button Style */
+/* Back to Top Icon Style */
+/* GLOBAL DRAG DISABLE */
+* {
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+img,
+a {
+    -webkit-user-drag: none;
+    pointer-events: auto;
+    /* Keep clickable */
+}
+
+/* Back to Top Small Button Style */
+/* Back to Top Icon Style */
+#backToTop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Position Centered Bottom */
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    /* Start scaled down/hidden */
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1001;
+    color: var(--text-white);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+#backToTop.visible {
+    opacity: 1;
+    pointer-events: auto;
+    /* When visible but idle, scale small */
+    transform: translateX(-50%) scale(0.6);
+    /* Important: keep translateX(-50%) for centering */
+}
+
+/* When scrolling (active) - full scale */
+#backToTop.visible.scrolling {
+    transform: translateX(-50%) scale(1);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#backToTop:hover {
+    background: #fff;
+    color: #000;
+    /* Hover scale reduced per request - make it SMALLER than normal */
+    transform: translateX(-50%) scale(0.9);
+    cursor: pointer;
+}
+
+#backToTop svg {
+    width: 16px;
+    height: 16px;
+}
