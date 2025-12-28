@@ -1,4 +1,4 @@
-# Chayathorn - Portfolio
+# WELCOME TO MY PORTFOLIO (NOT COMPLETED)
 
 A personal portfolio website showcasing UI/UX design work, featuring a high-level of interactivity and visual polish.
 
@@ -35,3 +35,4 @@ No build step is required.
 - `images/` - Portfolio images
 - `js/` - JavaScript logic
 - `index.html` - Main entry point
+
